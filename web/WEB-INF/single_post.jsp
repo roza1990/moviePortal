@@ -85,7 +85,7 @@
                     </div>
  <div class="rating1">
                         <p>Directed:  <c:out value="${requestScope.movie.director}"/> </p>
-
+                         <p>createdDate:  <c:out value="${requestScope.movie.createdDate}"/> </p>
 
                     </div>
 
@@ -102,8 +102,8 @@
 
     </div>
 </div>
-<footer style="display:inline-block;text-align: center;    margin-top: 50px;
-    width: 100%;">
+<footer style="display:inline-block;text-align: center;margin-top: 50px;
+    width: 100%; margin-bottom: 50px;">
     <p> © 2009 Movie Hunter, LLC. All Rights Reserved. Designed by <a href="http://chocotemplates.com" target="_blank"
                                                                       title="The Sweetest CSS Templates WorldWide">ChocoTemplates.com</a>
     </p>

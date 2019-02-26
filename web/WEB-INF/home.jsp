@@ -143,7 +143,7 @@
 </div>
 </div>
 <footer style="display:inline-block;text-align: center;    margin-top: 50px;
-    width: 100%;    margin-bottom: 50px;">
+    width: 100%;margin-bottom: 50px;">
     <p> © 2019 Movie Hunter, LLC. All Rights Reserved.  Designed by <a href="http://chocotemplates.com" target="_blank" title="The Sweetest CSS Templates WorldWide">ChocoTemplates.com</a></p>
 </footer>
 

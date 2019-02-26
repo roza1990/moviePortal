@@ -85,7 +85,7 @@ h1#logo a { float:left; width:239px; height:49px; background:url('images/logo.gi
 .rating { float:left; width:152px; padding-top:10px; }
 .rating p { float:left; font-size:11px; color:#fff; font-weight:bold; }
 
-.rating1 { float:left; width:152px; padding-top:30px; }
+.rating1 { float:left; width: 301px; padding-top:30px; }
 .rating1 p { float:left; font-size:15px; color:#fff; font-weight:bold; }
 
 .rating .stars { float:left; width:60px; height:11px; margin-left:2px;}
