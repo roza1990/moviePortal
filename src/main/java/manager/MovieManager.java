@@ -1,4 +1,5 @@
 package manager;
+
 import db.DBConnectionProvider;
 import model.Movie;
 import model.Genre;
@@ -9,30 +10,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-
 public class MovieManager {
 
     private Connection connection;
 
     public MovieManager() {
-        connection= DBConnectionProvider.getInstance().getConnection();
+        connection = DBConnectionProvider.getInstance().getConnection();
     }
 
 
-    public void  addMovie(Movie movie){
+    public void addMovie(Movie movie) {
         try {
-            String query="INSERT INTO movie(title,description,createdDate,picture,year,director) VALUES(?,?,?,?,?,?)";
-            PreparedStatement preparedStatement=connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1,movie.getTitle());
-            preparedStatement.setString(2,movie.getDescription());
-            preparedStatement.setString(3,DateUtil.convertDateToString(movie.getCreatedDate()));
-            preparedStatement.setString(4,movie.getPicture());
-            preparedStatement.setString(5,DateUtil.convertDateToString(movie.getMovieYear()));
-            preparedStatement.setString(6,movie.getDirector());
+            String query = "INSERT INTO movie(title,description,createdDate,picture,year,director) VALUES(?,?,?,?,?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, movie.getTitle());
+            preparedStatement.setString(2, movie.getDescription());
+            preparedStatement.setString(3, DateUtil.convertDateToString(movie.getCreatedDate()));
+            preparedStatement.setString(4, movie.getPicture());
+            preparedStatement.setString(5, (movie.getMovieYear()));
+            preparedStatement.setString(6, movie.getDirector());
 
             preparedStatement.executeUpdate();
-            ResultSet generatedKeys=preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()){
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
                 movie.setId(generatedKeys.getInt(1));
 
             }
@@ -46,10 +46,10 @@ public class MovieManager {
     }
 
 
-    public List<Movie> movieByGenre(int id){
+    public List<Movie> movieByGenre(int id) {
         String query = "SELECT * FROM `movie` INNER JOIN `genremovie` ON movie.id=genremovie.`movie_id` \n" +
                 "AND genremovie.`genre_id` IN (SELECT id FROM `genre`  INNER JOIN `genremovie` ON genre.id=genremovie.`genre_id` \n" +
-                "WHERE genremovie.`genre_id`=" +id+ ")";
+                "WHERE genremovie.`genre_id`=" + id + ")";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -61,7 +61,7 @@ public class MovieManager {
                 movie.setDescription(resultSet.getString(3));
                 movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(DateUtil.convertStringToDate(resultSet.getString(6)));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
 
                 movies.add(movie);
@@ -74,21 +74,21 @@ public class MovieManager {
 
     }
 
-    public List<Movie> getAllMovie(){
+    public List<Movie> getAllMovie() {
         String query = "Select * from movie";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            System.out.println(resultSet + " hhhhhhhhhhh");
+
             List<Movie> movies = new LinkedList<Movie>();
             while (resultSet.next()) {
                 Movie movie = new Movie();
                 movie.setId(resultSet.getInt(1));
                 movie.setTitle(resultSet.getString(2));
                 movie.setDescription(resultSet.getString(3));
-                movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
+                movie.setCreatedDate(resultSet.getDate(4));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(DateUtil.convertStringToDate(resultSet.getString(6)));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
 
                 movies.add(movie);
@@ -101,12 +101,12 @@ public class MovieManager {
 
     }
 
-    public List<Movie> getMovieLimit(){
-        String query = "Select * from movie limit 6";
+    public List<Movie> getMovieLimit() {
+        String query = "Select * from movie ORDER BY id DESC limit 6";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
-            System.out.println(resultSet + " hhhhhhhhhhh");
+
             List<Movie> movies = new LinkedList<Movie>();
             while (resultSet.next()) {
                 Movie movie = new Movie();
@@ -115,7 +115,7 @@ public class MovieManager {
                 movie.setDescription(resultSet.getString(3));
                 movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(DateUtil.convertStringToDate(resultSet.getString(6)));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
 
                 movies.add(movie);
@@ -128,7 +128,7 @@ public class MovieManager {
 
     }
 
-    public Movie getMovieById(int id){
+    public Movie getMovieById(int id) {
         String query = "SELECT * FROM movie WHERE id = " + id;
         try {
             Statement statement = connection.createStatement();
@@ -140,7 +140,7 @@ public class MovieManager {
                 movie.setDescription(resultSet.getString(3));
                 movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(resultSet.getDate(6));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
                 return movie;
             }
@@ -152,9 +152,8 @@ public class MovieManager {
     }
 
 
-
-    public List<Movie> getAllMovieByYear(int year){
-        String query = "Select * from movie where year ="+ year;
+    public List<Movie> getAllMovieByYear(int year) {
+        String query = "Select * from movie where year =" + year;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -166,7 +165,7 @@ public class MovieManager {
                 movie.setDescription(resultSet.getString(3));
                 movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(DateUtil.convertStringToDate(resultSet.getString(6)));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
 
                 movies.add(movie);
@@ -179,8 +178,8 @@ public class MovieManager {
 
     }
 
-    public List<Movie> getAllMovieBySearch(String searchResult){
-        String query = "Select * from movie where title LIKE  '" +"%"+ searchResult + "%"+ "'";
+    public List<Movie> getAllMovieBySearch(String searchResult) {
+        String query = "Select * from movie where title LIKE  '" + "%" + searchResult + "%" + "'";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -192,7 +191,7 @@ public class MovieManager {
                 movie.setDescription(resultSet.getString(3));
                 movie.setCreatedDate(DateUtil.convertStringToDate(resultSet.getString(4)));
                 movie.setPicture(resultSet.getString(5));
-                movie.setMovieYear(DateUtil.convertStringToDate(resultSet.getString(6)));
+                movie.setMovieYear(resultSet.getString(6));
                 movie.setDirector(resultSet.getString(7));
 
                 movies.add(movie);
@@ -206,15 +205,15 @@ public class MovieManager {
     }
 
 
-    public void addGenreMovieId(Movie movie, List<Genre> genre){
-        String query =  "INSERT INTO genremovie(genre_id,movie_id) VALUES (?,?)";
-        System.out.println(query +"query ");
+    public void addGenreMovieId(Movie movie, List<Genre> genre) {
+        String query = "INSERT INTO genremovie(genre_id,movie_id) VALUES (?,?)";
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             for (Genre genreList : genre) {
                 int gId = genreList.getId();
                 preparedStatement.setInt(1, gId);
-                preparedStatement.setInt(2,movie.getId());
+                preparedStatement.setInt(2, movie.getId());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

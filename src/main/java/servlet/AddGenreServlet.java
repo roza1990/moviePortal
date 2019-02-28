@@ -16,9 +16,9 @@ public class AddGenreServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name=req.getParameter("name");
-        Genre g=new Genre();
-        g.setName(name);
-        genreManager.addGenre(g);
+        Genre genre=new Genre();
+        genre.setName(name);
+        genreManager.addGenre(genre);
         resp.sendRedirect("/admin");
     }
 }

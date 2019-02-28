@@ -31,7 +31,7 @@ Add Movie
 
         ${g.name}<input type="checkbox" name="gId" value="${g.name}"><br>
     </c:forEach>
-
+    Year: <br><input type="text" name="year"/><br><br>
     Directet By: <br><input type="text" name="director"/><br><br>
     image: <input type="file" name="picture"/><br>
     <br><br>

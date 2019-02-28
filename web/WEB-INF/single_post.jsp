@@ -41,7 +41,9 @@
                 <li><a class="active" href="home">HOME</a></li>
                 <c:forEach var="genre" items="${requestScope.get('genres')}">
                     <li><a href="/home?genreId=${genre.id}">${genre.name}</a></li>
+
                 </c:forEach>
+                <li><a  href="/login.jsp">Login</a></li>
             </ul>
         </div>
         <!-- end Navigation -->

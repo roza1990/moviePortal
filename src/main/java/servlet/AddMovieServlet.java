@@ -64,13 +64,15 @@ private GenreManager genreManager=new GenreManager();
                                         Genre getGenreByName=genreManager.getCaGenreByName(item.getString());
                                         genre.add(getGenreByName);
                                         movie.setGenres(genre);
+                                    }else if(item.getFieldName().equals("year")){
+                                        movie.setMovieYear(item.getString());
                                     }
 
                                 }
                             }
 
                             movie.setCreatedDate(new Date());
-                            movie.setMovieYear(new Date());
+                           // movie.setMovieYear(new Date());
                             movieManager.addMovie(movie);
                             movieManager.addGenreMovieId(movie,genre);
                             resp.sendRedirect("/admin");

@@ -19,7 +19,7 @@ public class Movie {
     private String description;
     private Date createdDate;
     private String picture;
-    private Date movieYear;
+    private String movieYear;
     private String director;
     private List<Genre> genres;
 
